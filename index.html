@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Khalil's Café & Restaurant | Online Ordering</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#faf7f2;color:#25170f}
+header{background:linear-gradient(135deg,#5e0909,#a61919);color:#fff;padding:52px 7% 42px}
+nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:55px}.brand{font-weight:900;font-size:24px}nav a{color:#fff;text-decoration:none;margin-left:22px;font-weight:700}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:35px;align-items:center}.hero h1{font-size:clamp(42px,6vw,72px);line-height:1;margin:0 0 18px}.hero h1 span{color:#ffd7a8}.hero p{font-size:19px;max-width:650px;color:#f7e7dc}
+.hero-img{height:320px;border-radius:28px;background:url('menu-photo.jpg') center/cover;box-shadow:0 20px 50px #0006;border:5px solid #fff3}
+.btn{display:inline-block;background:#f59e0b;color:#25170f;text-decoration:none;border:0;padding:13px 20px;border-radius:12px;font-weight:900;cursor:pointer}
+main{padding:45px 7% 100px}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:28px;position:sticky;top:0;background:#faf7f2ee;padding:14px 0;z-index:3}
+.search{padding:13px 16px;border:1px solid #d9c9bd;border-radius:12px;width:min(420px,100%);font-size:16px;background:#fff}
+.menu-section{margin:38px 0}.menu-section h2{font-size:27px;color:#8d1414;border-left:5px solid #a61919;padding-left:12px}
+.items{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.item{background:#fff;border:1px solid #eaded5;border-radius:15px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 5px 18px #32180d09}.item h3{font-size:16px;margin:0 0 5px}.item strong{color:#a61919}.add{border:0;background:#25170f;color:#fff;padding:9px 13px;border-radius:9px;font-weight:800;cursor:pointer}.add:disabled{opacity:.45;cursor:not-allowed}
+.cart{position:fixed;right:18px;bottom:18px;width:min(390px,calc(100% - 36px));max-height:75vh;overflow:auto;background:#fff;border:1px solid #e2d4c9;border-radius:22px;box-shadow:0 18px 60px #0003;padding:20px;z-index:10;display:none}.cart.open{display:block}.cart h2{margin-top:0}.cart-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #eee;padding:9px 0}.cart-row button{border:0;background:#eee;border-radius:7px;cursor:pointer}.total{font-size:20px;font-weight:900;padding:15px 0}.form input,.form textarea{width:100%;padding:11px;margin:5px 0 10px;border:1px solid #d9c9bd;border-radius:9px;font:inherit}.form textarea{min-height:70px}
+footer{background:#25170f;color:#fff;padding:35px 7%;text-align:center}.muted{color:#796b62}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-img{height:230px}.items{grid-template-columns:1fr}nav a{display:none}}
+</style>
+</head>
+<body>
+<header>
+<nav><div class="brand">KHALIL'S CAFÉ & RESTAURANT</div><div><a href="#menu">Menu</a><a href="#order">Order</a></div></nav>
+<div class="hero"><div><div style="font-weight:800;letter-spacing:1px">EXQUISITE KASHMIRI & CONTINENTAL FLAVORS</div><h1>Fresh food.<br><span>Happy moments.</span></h1><p>Explore our menu and place your order online. From momos and pizza to biryani, burgers, shakes and more.</p><a class="btn" href="#menu">Explore Menu</a></div><div class="hero-img"></div></div>
+</header>
+<main id="menu">
+<div class="toolbar"><input id="search" class="search" placeholder="🔎 Search the menu..." oninput="filterMenu()"><button class="btn" onclick="toggleCart()">🛒 Cart (<span id="count">0</span>)</button></div>
+<section class="menu-section" data-category="Soup"><h2>Soup</h2><div class="items"><div class="item" data-name="Chicken Soup" data-category="Soup">
+          <div><h3>Chicken Soup</h3><strong>₹149</strong></div>
+          <button class="add"  onclick="addItem('Chicken Soup',149,'₹149')">Add</button>
+        </div><div class="item" data-name="Sweet Corn Soup" data-category="Soup">
+          <div><h3>Sweet Corn Soup</h3><strong>₹149</strong></div>
+          <button class="add"  onclick="addItem('Sweet Corn Soup',149,'₹149')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Snacks"><h2>Snacks</h2><div class="items"><div class="item" data-name="Honey Chilli Potato" data-category="Snacks">
+          <div><h3>Honey Chilli Potato</h3><strong>₹220</strong></div>
+          <button class="add"  onclick="addItem('Honey Chilli Potato',220,'₹220')">Add</button>
+        </div><div class="item" data-name="French Fries" data-category="Snacks">
+          <div><h3>French Fries</h3><strong>₹100</strong></div>
+          <button class="add"  onclick="addItem('French Fries',100,'₹100')">Add</button>
+        </div><div class="item" data-name="Peri Peri Fries" data-category="Snacks">
+          <div><h3>Peri Peri Fries</h3><strong>₹120</strong></div>
+          <button class="add"  onclick="addItem('Peri Peri Fries',120,'₹120')">Add</button>
+        </div></div></section><section class="menu-section" data-category="KFC Style Fried Chicken"><h2>KFC Style Fried Chicken</h2><div class="items"><div class="item" data-name="Chicken Popcorn" data-category="KFC Style Fried Chicken">
+          <div><h3>Chicken Popcorn</h3><strong>₹200</strong></div>
+          <button class="add"  onclick="addItem('Chicken Popcorn',200,'₹200')">Add</button>
+        </div><div class="item" data-name="Boneless Chicken Strips — 3 Pcs" data-category="KFC Style Fried Chicken">
+          <div><h3>Boneless Chicken Strips — 3 Pcs</h3><strong>₹160</strong></div>
+          <button class="add"  onclick="addItem('Boneless Chicken Strips — 3 Pcs',160,'₹160')">Add</button>
+        </div><div class="item" data-name="Boneless Chicken Strips — 6 Pcs" data-category="KFC Style Fried Chicken">
+          <div><h3>Boneless Chicken Strips — 6 Pcs</h3><strong>₹300</strong></div>
+          <button class="add"  onclick="addItem('Boneless Chicken Strips — 6 Pcs',300,'₹300')">Add</button>
+        </div><div class="item" data-name="Chicken Wings — 3 Pcs" data-category="KFC Style Fried Chicken">
+          <div><h3>Chicken Wings — 3 Pcs</h3><strong>₹150</strong></div>
+          <button class="add"  onclick="addItem('Chicken Wings — 3 Pcs',150,'₹150')">Add</button>
+        </div><div class="item" data-name="Chicken Wings — 5 Pcs" data-category="KFC Style Fried Chicken">
+          <div><h3>Chicken Wings — 5 Pcs</h3><strong>₹210</strong></div>
+          <button class="add"  onclick="addItem('Chicken Wings — 5 Pcs',210,'₹210')">Add</button>
+        </div><div class="item" data-name="Crispy Fried Chicken — 6 Pcs" data-category="KFC Style Fried Chicken">
+          <div><h3>Crispy Fried Chicken — 6 Pcs</h3><strong>₹550</strong></div>
+          <button class="add"  onclick="addItem('Crispy Fried Chicken — 6 Pcs',550,'₹550')">Add</button>
+        </div><div class="item" data-name="Crispy Fried Chicken — 8 Pcs" data-category="KFC Style Fried Chicken">
+          <div><h3>Crispy Fried Chicken — 8 Pcs</h3><strong>₹680</strong></div>
+          <button class="add"  onclick="addItem('Crispy Fried Chicken — 8 Pcs',680,'₹680')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Tandoori"><h2>Tandoori</h2><div class="items"><div class="item" data-name="Tandoori Chicken — H/F" data-category="Tandoori">
+          <div><h3>Tandoori Chicken — H/F</h3><strong>₹260</strong></div>
+          <button class="add"  onclick="addItem('Tandoori Chicken — H/F',260,'₹260')">Add</button>
+        </div><div class="item" data-name="Tandoori Chicken — Full" data-category="Tandoori">
+          <div><h3>Tandoori Chicken — Full</h3><strong>₹500</strong></div>
+          <button class="add"  onclick="addItem('Tandoori Chicken — Full',500,'₹500')">Add</button>
+        </div><div class="item" data-name="Afghani Chicken — H/F" data-category="Tandoori">
+          <div><h3>Afghani Chicken — H/F</h3><strong>₹330</strong></div>
+          <button class="add"  onclick="addItem('Afghani Chicken — H/F',330,'₹330')">Add</button>
+        </div><div class="item" data-name="Afghani Chicken — Full" data-category="Tandoori">
+          <div><h3>Afghani Chicken — Full</h3><strong>₹600</strong></div>
+          <button class="add"  onclick="addItem('Afghani Chicken — Full',600,'₹600')">Add</button>
+        </div><div class="item" data-name="Chicken Tikka" data-category="Tandoori">
+          <div><h3>Chicken Tikka</h3><strong>₹349</strong></div>
+          <button class="add"  onclick="addItem('Chicken Tikka',349,'₹349')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Chicken Dishes"><h2>Chicken Dishes</h2><div class="items"><div class="item" data-name="Chicken Kanti — H/F" data-category="Chicken Dishes">
+          <div><h3>Chicken Kanti — H/F</h3><strong>₹300</strong></div>
+          <button class="add"  onclick="addItem('Chicken Kanti — H/F',300,'₹300')">Add</button>
+        </div><div class="item" data-name="Chicken Kanti — Full" data-category="Chicken Dishes">
+          <div><h3>Chicken Kanti — Full</h3><strong>₹550</strong></div>
+          <button class="add"  onclick="addItem('Chicken Kanti — Full',550,'₹550')">Add</button>
+        </div><div class="item" data-name="Chilli Chicken — Full" data-category="Chicken Dishes">
+          <div><h3>Chilli Chicken — Full</h3><strong>₹360</strong></div>
+          <button class="add"  onclick="addItem('Chilli Chicken — Full',360,'₹360')">Add</button>
+        </div><div class="item" data-name="Chicken 65" data-category="Chicken Dishes">
+          <div><h3>Chicken 65</h3><strong>₹350</strong></div>
+          <button class="add"  onclick="addItem('Chicken 65',350,'₹350')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Burgers"><h2>Burgers</h2><div class="items"><div class="item" data-name="Zinger Burger" data-category="Burgers">
+          <div><h3>Zinger Burger</h3><strong>₹200</strong></div>
+          <button class="add"  onclick="addItem('Zinger Burger',200,'₹200')">Add</button>
+        </div><div class="item" data-name="Chicken Burger with Fries" data-category="Burgers">
+          <div><h3>Chicken Burger with Fries</h3><strong>₹170</strong></div>
+          <button class="add"  onclick="addItem('Chicken Burger with Fries',170,'₹170')">Add</button>
+        </div><div class="item" data-name="Chicken Cheese Burger" data-category="Burgers">
+          <div><h3>Chicken Cheese Burger</h3><strong>₹190</strong></div>
+          <button class="add"  onclick="addItem('Chicken Cheese Burger',190,'₹190')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Sandwiches"><h2>Sandwiches</h2><div class="items"><div class="item" data-name="Chicken Grill Sandwich" data-category="Sandwiches">
+          <div><h3>Chicken Grill Sandwich</h3><strong>₹200</strong></div>
+          <button class="add"  onclick="addItem('Chicken Grill Sandwich',200,'₹200')">Add</button>
+        </div><div class="item" data-name="Chicken &amp; Cheese Sandwich" data-category="Sandwiches">
+          <div><h3>Chicken &amp; Cheese Sandwich</h3><strong>₹220</strong></div>
+          <button class="add"  onclick="addItem('Chicken & Cheese Sandwich',220,'₹220')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Salad"><h2>Salad</h2><div class="items"><div class="item" data-name="Fresh Green Salad Platter" data-category="Salad">
+          <div><h3>Fresh Green Salad Platter</h3><strong>₹70</strong></div>
+          <button class="add"  onclick="addItem('Fresh Green Salad Platter',70,'₹70')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Pizza Garden"><h2>Pizza Garden</h2><div class="items"><div class="item" data-name="Spicy Chicken Blast Pizza — Reg" data-category="Pizza Garden">
+          <div><h3>Spicy Chicken Blast Pizza — Reg</h3><strong>₹250</strong></div>
+          <button class="add"  onclick="addItem('Spicy Chicken Blast Pizza — Reg',250,'₹250')">Add</button>
+        </div><div class="item" data-name="Spicy Chicken Blast Pizza — Med" data-category="Pizza Garden">
+          <div><h3>Spicy Chicken Blast Pizza — Med</h3><strong>₹380</strong></div>
+          <button class="add"  onclick="addItem('Spicy Chicken Blast Pizza — Med',380,'₹380')">Add</button>
+        </div><div class="item" data-name="Spicy Chicken Blast Pizza — Lrg" data-category="Pizza Garden">
+          <div><h3>Spicy Chicken Blast Pizza — Lrg</h3><strong>₹550</strong></div>
+          <button class="add"  onclick="addItem('Spicy Chicken Blast Pizza — Lrg',550,'₹550')">Add</button>
+        </div><div class="item" data-name="Butter Chicken Pizza — Reg" data-category="Pizza Garden">
+          <div><h3>Butter Chicken Pizza — Reg</h3><strong>₹300</strong></div>
+          <button class="add"  onclick="addItem('Butter Chicken Pizza — Reg',300,'₹300')">Add</button>
+        </div><div class="item" data-name="Butter Chicken Pizza — Med" data-category="Pizza Garden">
+          <div><h3>Butter Chicken Pizza — Med</h3><strong>₹440</strong></div>
+          <button class="add"  onclick="addItem('Butter Chicken Pizza — Med',440,'₹440')">Add</button>
+        </div><div class="item" data-name="Butter Chicken Pizza — Lrg" data-category="Pizza Garden">
+          <div><h3>Butter Chicken Pizza — Lrg</h3><strong>₹580</strong></div>
+          <button class="add"  onclick="addItem('Butter Chicken Pizza — Lrg',580,'₹580')">Add</button>
+        </div><div class="item" data-name="Margherita Pizza — Reg" data-category="Pizza Garden">
+          <div><h3>Margherita Pizza — Reg</h3><strong>₹200</strong></div>
+          <button class="add"  onclick="addItem('Margherita Pizza — Reg',200,'₹200')">Add</button>
+        </div><div class="item" data-name="Margherita Pizza — Med" data-category="Pizza Garden">
+          <div><h3>Margherita Pizza — Med</h3><strong>₹330</strong></div>
+          <button class="add"  onclick="addItem('Margherita Pizza — Med',330,'₹330')">Add</button>
+        </div><div class="item" data-name="Margherita Pizza — Lrg" data-category="Pizza Garden">
+          <div><h3>Margherita Pizza — Lrg</h3><strong>₹499</strong></div>
+          <button class="add"  onclick="addItem('Margherita Pizza — Lrg',499,'₹499')">Add</button>
+        </div><div class="item" data-name="Khalil&#x27;s Special Pizza — Reg" data-category="Pizza Garden">
+          <div><h3>Khalil&#x27;s Special Pizza — Reg</h3><strong>₹320</strong></div>
+          <button class="add"  onclick="addItem('Khalil\'s Special Pizza — Reg',320,'₹320')">Add</button>
+        </div><div class="item" data-name="Khalil&#x27;s Special Pizza — Med" data-category="Pizza Garden">
+          <div><h3>Khalil&#x27;s Special Pizza — Med</h3><strong>₹499</strong></div>
+          <button class="add"  onclick="addItem('Khalil\'s Special Pizza — Med',499,'₹499')">Add</button>
+        </div><div class="item" data-name="Khalil&#x27;s Special Pizza — Lrg" data-category="Pizza Garden">
+          <div><h3>Khalil&#x27;s Special Pizza — Lrg</h3><strong>₹649</strong></div>
+          <button class="add"  onclick="addItem('Khalil\'s Special Pizza — Lrg',649,'₹649')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Pasta"><h2>Pasta</h2><div class="items"><div class="item" data-name="Chicken Alfredo Pasta" data-category="Pasta">
+          <div><h3>Chicken Alfredo Pasta</h3><strong>₹300</strong></div>
+          <button class="add"  onclick="addItem('Chicken Alfredo Pasta',300,'₹300')">Add</button>
+        </div><div class="item" data-name="Chicken Arrabiata (Red Sauce)" data-category="Pasta">
+          <div><h3>Chicken Arrabiata (Red Sauce)</h3><strong>₹330</strong></div>
+          <button class="add"  onclick="addItem('Chicken Arrabiata (Red Sauce)',330,'₹330')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Momos"><h2>Momos</h2><div class="items"><div class="item" data-name="Steam Momos (Chicken)" data-category="Momos">
+          <div><h3>Steam Momos (Chicken)</h3><strong>₹120</strong></div>
+          <button class="add"  onclick="addItem('Steam Momos (Chicken)',120,'₹120')">Add</button>
+        </div><div class="item" data-name="Fried Momos" data-category="Momos">
+          <div><h3>Fried Momos</h3><strong>₹140</strong></div>
+          <button class="add"  onclick="addItem('Fried Momos',140,'₹140')">Add</button>
+        </div><div class="item" data-name="Kurkure Momos" data-category="Momos">
+          <div><h3>Kurkure Momos</h3><strong>₹170</strong></div>
+          <button class="add"  onclick="addItem('Kurkure Momos',170,'₹170')">Add</button>
+        </div><div class="item" data-name="Afghani Malai Momos" data-category="Momos">
+          <div><h3>Afghani Malai Momos</h3><strong>₹200</strong></div>
+          <button class="add"  onclick="addItem('Afghani Malai Momos',200,'₹200')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Rolls"><h2>Rolls</h2><div class="items"><div class="item" data-name="Chicken Shawarma Roll" data-category="Rolls">
+          <div><h3>Chicken Shawarma Roll</h3><strong>₹230</strong></div>
+          <button class="add"  onclick="addItem('Chicken Shawarma Roll',230,'₹230')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Biryani &amp; Rice"><h2>Biryani &amp; Rice</h2><div class="items"><div class="item" data-name="Hyderabadi Chicken Dum Biryani — H/F" data-category="Biryani &amp; Rice">
+          <div><h3>Hyderabadi Chicken Dum Biryani — H/F</h3><strong>₹120</strong></div>
+          <button class="add"  onclick="addItem('Hyderabadi Chicken Dum Biryani — H/F',120,'₹120')">Add</button>
+        </div><div class="item" data-name="Hyderabadi Chicken Dum Biryani — Full" data-category="Biryani &amp; Rice">
+          <div><h3>Hyderabadi Chicken Dum Biryani — Full</h3><strong>₹240</strong></div>
+          <button class="add"  onclick="addItem('Hyderabadi Chicken Dum Biryani — Full',240,'₹240')">Add</button>
+        </div><div class="item" data-name="Chicken Pulav" data-category="Biryani &amp; Rice">
+          <div><h3>Chicken Pulav</h3><strong>₹300</strong></div>
+          <button class="add"  onclick="addItem('Chicken Pulav',300,'₹300')">Add</button>
+        </div><div class="item" data-name="Chicken Fried Rice — H/F" data-category="Biryani &amp; Rice">
+          <div><h3>Chicken Fried Rice — H/F</h3><strong>₹170</strong></div>
+          <button class="add"  onclick="addItem('Chicken Fried Rice — H/F',170,'₹170')">Add</button>
+        </div><div class="item" data-name="Chicken Fried Rice — Full" data-category="Biryani &amp; Rice">
+          <div><h3>Chicken Fried Rice — Full</h3><strong>₹250</strong></div>
+          <button class="add"  onclick="addItem('Chicken Fried Rice — Full',250,'₹250')">Add</button>
+        </div><div class="item" data-name="Zeera Rice" data-category="Biryani &amp; Rice">
+          <div><h3>Zeera Rice</h3><strong>₹110</strong></div>
+          <button class="add"  onclick="addItem('Zeera Rice',110,'₹110')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Indian Gravy Non Veg"><h2>Indian Gravy Non Veg</h2><div class="items"><div class="item" data-name="Butter Chicken Boneless — H/F" data-category="Indian Gravy Non Veg">
+          <div><h3>Butter Chicken Boneless — H/F</h3><strong>₹299</strong></div>
+          <button class="add"  onclick="addItem('Butter Chicken Boneless — H/F',299,'₹299')">Add</button>
+        </div><div class="item" data-name="Butter Chicken Boneless — Full" data-category="Indian Gravy Non Veg">
+          <div><h3>Butter Chicken Boneless — Full</h3><strong>₹499</strong></div>
+          <button class="add"  onclick="addItem('Butter Chicken Boneless — Full',499,'₹499')">Add</button>
+        </div><div class="item" data-name="Butter Chicken With Bone — H/F" data-category="Indian Gravy Non Veg">
+          <div><h3>Butter Chicken With Bone — H/F</h3><strong>₹400</strong></div>
+          <button class="add"  onclick="addItem('Butter Chicken With Bone — H/F',400,'₹400')">Add</button>
+        </div><div class="item" data-name="Butter Chicken With Bone — Full" data-category="Indian Gravy Non Veg">
+          <div><h3>Butter Chicken With Bone — Full</h3><strong>₹699</strong></div>
+          <button class="add"  onclick="addItem('Butter Chicken With Bone — Full',699,'₹699')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Beverages / Shakes / Softy"><h2>Beverages / Shakes / Softy</h2><div class="items"><div class="item" data-name="Mango Shake" data-category="Beverages / Shakes / Softy">
+          <div><h3>Mango Shake</h3><strong>₹120</strong></div>
+          <button class="add"  onclick="addItem('Mango Shake',120,'₹120')">Add</button>
+        </div><div class="item" data-name="Strawberry Shake" data-category="Beverages / Shakes / Softy">
+          <div><h3>Strawberry Shake</h3><strong>₹110</strong></div>
+          <button class="add"  onclick="addItem('Strawberry Shake',110,'₹110')">Add</button>
+        </div><div class="item" data-name="Chocolate Shake" data-category="Beverages / Shakes / Softy">
+          <div><h3>Chocolate Shake</h3><strong>₹120</strong></div>
+          <button class="add"  onclick="addItem('Chocolate Shake',120,'₹120')">Add</button>
+        </div><div class="item" data-name="Cold Coffee" data-category="Beverages / Shakes / Softy">
+          <div><h3>Cold Coffee</h3><strong>₹120</strong></div>
+          <button class="add"  onclick="addItem('Cold Coffee',120,'₹120')">Add</button>
+        </div><div class="item" data-name="Virgin Mojito" data-category="Beverages / Shakes / Softy">
+          <div><h3>Virgin Mojito</h3><strong>₹120</strong></div>
+          <button class="add"  onclick="addItem('Virgin Mojito',120,'₹120')">Add</button>
+        </div><div class="item" data-name="Watermelon Mojito" data-category="Beverages / Shakes / Softy">
+          <div><h3>Watermelon Mojito</h3><strong>₹130</strong></div>
+          <button class="add"  onclick="addItem('Watermelon Mojito',130,'₹130')">Add</button>
+        </div><div class="item" data-name="Blue Ocean Mojito" data-category="Beverages / Shakes / Softy">
+          <div><h3>Blue Ocean Mojito</h3><strong>₹120</strong></div>
+          <button class="add"  onclick="addItem('Blue Ocean Mojito',120,'₹120')">Add</button>
+        </div><div class="item" data-name="Coffee" data-category="Beverages / Shakes / Softy">
+          <div><h3>Coffee</h3><strong>₹80</strong></div>
+          <button class="add"  onclick="addItem('Coffee',80,'₹80')">Add</button>
+        </div><div class="item" data-name="Black Coffee" data-category="Beverages / Shakes / Softy">
+          <div><h3>Black Coffee</h3><strong>₹60</strong></div>
+          <button class="add"  onclick="addItem('Black Coffee',60,'₹60')">Add</button>
+        </div><div class="item" data-name="Softy — Vanilla/Strawberry/Chocolate" data-category="Beverages / Shakes / Softy">
+          <div><h3>Softy — Vanilla/Strawberry/Chocolate</h3><strong>₹50</strong></div>
+          <button class="add"  onclick="addItem('Softy — Vanilla/Strawberry/Chocolate',50,'₹50')">Add</button>
+        </div><div class="item" data-name="Cold Drinks / Water — MRP" data-category="Beverages / Shakes / Softy">
+          <div><h3>Cold Drinks / Water — MRP</h3><strong>MRP</strong></div>
+          <button class="add" disabled onclick="addItem('Cold Drinks / Water — MRP',0,'MRP')">Add</button>
+        </div></div></section><section class="menu-section" data-category="Roti &amp; Breads"><h2>Roti &amp; Breads</h2><div class="items"><div class="item" data-name="Rumali Roti" data-category="Roti &amp; Breads">
+          <div><h3>Rumali Roti</h3><strong>₹30</strong></div>
+          <button class="add"  onclick="addItem('Rumali Roti',30,'₹30')">Add</button>
+        </div><div class="item" data-name="Tawa Roti" data-category="Roti &amp; Breads">
+          <div><h3>Tawa Roti</h3><strong>₹20</strong></div>
+          <button class="add"  onclick="addItem('Tawa Roti',20,'₹20')">Add</button>
+        </div><div class="item" data-name="Butter Roti" data-category="Roti &amp; Breads">
+          <div><h3>Butter Roti</h3><strong>₹30</strong></div>
+          <button class="add"  onclick="addItem('Butter Roti',30,'₹30')">Add</button>
+        </div><div class="item" data-name="Butter Naan Tandoori" data-category="Roti &amp; Breads">
+          <div><h3>Butter Naan Tandoori</h3><strong>₹60</strong></div>
+          <button class="add"  onclick="addItem('Butter Naan Tandoori',60,'₹60')">Add</button>
+        </div></div></section>
+</main>
+
+<div class="cart" id="cart">
+<h2>Your Order 🛒</h2><div id="cartItems"><p class="muted">Your cart is empty.</p></div>
+<div class="total">Total: ₹<span id="total">0</span></div>
+<div class="form" id="order">
+<label>Name<input id="customer" placeholder="Your name"></label>
+<label>Phone<input id="phone" type="tel" placeholder="Your phone number"></label>
+<label>Delivery address<textarea id="address" placeholder="Complete address"></textarea></label>
+<label>Special instructions<textarea id="notes" placeholder="Optional"></textarea></label>
+<button class="btn" style="width:100%" onclick="sendOrder()">Place Order on WhatsApp</button>
+<p id="status" class="muted"></p>
+</div>
+</div>
+
+<footer><strong>Khalil's Café & Restaurant</strong><br><span>Exquisite Kashmiri & Continental Flavors</span><br><br>© 2026 Khalil's Café & Restaurant</footer>
+
+<script>
+const cart=[];
+function addItem(name,price,label){
+  if(!price)return;
+  const found=cart.find(x=>x.name===name);
+  if(found)found.qty++; else cart.push({name,price,qty:1});
+  renderCart();
+  document.getElementById('cart').classList.add('open');
+}
+function renderCart(){
+  const box=document.getElementById('cartItems');
+  if(!cart.length){box.innerHTML='<p class="muted">Your cart is empty.</p>';}
+  else box.innerHTML=cart.map((x,i)=>`<div class="cart-row"><span>${x.name} × ${x.qty}</span><span>₹${x.price*x.qty} <button onclick="removeItem(${i})">−</button></span></div>`).join('');
+  document.getElementById('count').textContent=cart.reduce((a,x)=>a+x.qty,0);
+  document.getElementById('total').textContent=cart.reduce((a,x)=>a+x.price*x.qty,0);
+}
+function removeItem(i){cart[i].qty--;if(cart[i].qty<=0)cart.splice(i,1);renderCart();}
+function toggleCart(){document.getElementById('cart').classList.toggle('open');}
+function filterMenu(){
+ const q=document.getElementById('search').value.toLowerCase();
+ document.querySelectorAll('.item').forEach(el=>el.style.display=el.innerText.toLowerCase().includes(q)?'flex':'none');
+ document.querySelectorAll('.menu-section').forEach(s=>{const visible=[...s.querySelectorAll('.item')].some(x=>x.style.display!=='none');s.style.display=visible?'block':'none';});
+}
+function sendOrder(){
+ if(!cart.length){document.getElementById('status').textContent='Please add an item first.';return;}
+ const name=document.getElementById('customer').value.trim(), phone=document.getElementById('phone').value.trim(), address=document.getElementById('address').value.trim(), notes=document.getElementById('notes').value.trim();
+ if(!name||!phone||!address){document.getElementById('status').textContent='Please fill in your name, phone and address.';return;}
+ const lines=cart.map(x=>`${x.name} x ${x.qty} = ₹${x.price*x.qty}`).join('\n');
+ const total=cart.reduce((a,x)=>a+x.price*x.qty,0);
+ const text=`New order — Khalil's Café & Restaurant\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nItems:\n${lines}\n\nTotal: ₹${total}\nInstructions: ${notes||'None'}`;
+ const number='918802481994'; // Replace with the restaurant's WhatsApp number.
+ window.open('https://wa.me/'+number+'?text='+encodeURIComponent(text),'_blank');
+ document.getElementById('status').textContent='Order prepared. Your order will open in WhatsApp with the restaurant's ordering number.';
+}
+renderCart();
+</script>
+</body></html>
